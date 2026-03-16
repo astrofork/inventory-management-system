@@ -28,7 +28,7 @@ app:
     secret: ${JWT_SECRET}
 
   google:
-    client-id: ${GOOGLE_CLIENT_ID}
+    client-id: ${GOOGLE_CLIENT_ID:}
 
 management:
   endpoint:
