@@ -39,3 +39,7 @@ logging:
   level:
     com.kirana: INFO
     org.springframework.security: WARN
+
+ml:
+  service:
+    url:http://localhost:8080

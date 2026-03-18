@@ -14,21 +14,23 @@ engine = create_engine(DATABASE_URL)
 
 
 
-def fetch_item_sales(item_id: int):
+def fetch_item_sales(item_id: int,retailer_id:int):
     query = text("""
         SELECT 
             DATE(s.sale_date) as ds, 
             SUM(si.quantity) as y
         FROM sale_items si
         JOIN sales s ON si.sale_id = s.id
+        JOIN items i ON si.item_id = i.id
         WHERE si.item_id = :item_id
+        AND i.retailer_id = :retailer_id
         AND s.sale_date >= NOW() - INTERVAL '90 days'
         GROUP BY DATE(s.sale_date)
         ORDER BY ds
                  """)
 
     with engine.connect() as conn:
-        result = conn.execute(query,{"item_id":item_id})
+        result = conn.execute(query,{"item_id":item_id, "retailer_id":retailer_id})
         df = pd.DataFrame(result.fetchall(),columns=['ds','y'])
     return df
 
