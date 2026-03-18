@@ -51,6 +51,7 @@ public class SaleDto {
         @Positive(message = "Unit price must be positive")
         private BigDecimal unitPrice;
 
+        @NotNull
         private BigDecimal total;
         private BigDecimal unitCostPrice;
     }
