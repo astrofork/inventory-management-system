@@ -34,7 +34,7 @@ public class ForecastController {
       Authentication auth   
       ){
     try{
-
+      System.out.println("CHECK THIS:"+auth);
       Long retailerId = TenantContext.getRetailerId(auth);
       ForecastResponse response = forecastService.getItemForecast(itemId, days,retailerId);
       return ResponseEntity.ok(ApiResponse.success(Map.of("forecast",response)));
@@ -60,6 +60,7 @@ public class ForecastController {
     try{
       Long retailerId = TenantContext.getRetailerId(auth);
       RecommendationResponse response = forecastService.getRecommendations(retailerId);
+      System.out.println(response);
       return ResponseEntity.ok(ApiResponse.success(Map.of("recommendations",response)));
     }catch(Exception e){
       return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)

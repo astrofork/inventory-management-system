@@ -4,30 +4,39 @@ package com.kirana.mlService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.api.client.util.Value;
+import org.springframework.beans.factory.annotation.Value;
 import com.kirana.entity.Item;
 import com.kirana.mlDto.ForecastResponse;
 import com.kirana.mlDto.RecommendationResponse;
 import com.kirana.mlDto.TrendResponse;
 import com.kirana.repository.ItemRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 public class ForecastService {
 
 
-  private ItemRepository itemRepository;
-
-
-  @Value("${ml.service.url:http://localhost:8080}")
-  private String mlServiceUrl;
-
+  private final ItemRepository itemRepository;
+  @Value("${ml.service.url}")
+  private final String mlServiceUrl;
   private final RestTemplate restTemplate;
 
-  ForecastService(RestTemplate restTemplate){
-    this.restTemplate = restTemplate;
+  public ForecastService(
+            ItemRepository itemRepository,
+            RestTemplate restTemplate,
+            @Value("${ml.service.url}") String mlServiceUrl
+  ) {
+        this.itemRepository = itemRepository;
+        this.restTemplate = restTemplate;
+        this.mlServiceUrl = mlServiceUrl;
   }
 
+
+
+
   public ForecastResponse getItemForecast(long itemId, int days,long retailerId){
+
 
     Item item = itemRepository.findByIdAndRetailerIdAndDeletedAtIsNull(itemId, retailerId)
       .orElseThrow(()-> new RuntimeException("Item is not found or unauthorized"));
@@ -43,6 +52,7 @@ public class ForecastService {
   public RecommendationResponse getRecommendations(Long retailerId){
     try{
       String url = mlServiceUrl + "/recommendations/" + retailerId;
+      System.out.println(url);
       return restTemplate.getForObject(url, RecommendationResponse.class);
     }catch(Exception e){
       throw new RuntimeException("ml service unavailable" + e.getMessage());
@@ -58,10 +68,5 @@ public class ForecastService {
       throw new RuntimeException("ml service unavailable" + e.getMessage());
     }
   }
-
-
-
-
-
   
 }

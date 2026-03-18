@@ -10,7 +10,7 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecommendationResponse {
 
-  private List<Recommendation> recommendation;
+  private List<Recommendation> recommendations;
 
 
   @Data
