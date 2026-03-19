@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kirana.security.TenantContext;
 
 import com.kirana.dto.ApiResponse;
-import com.kirana.mlDto.ForecastResponse;
-import com.kirana.mlDto.RecommendationResponse;
-import com.kirana.mlDto.TrendResponse;
+import com.kirana.mlDto.ItemDecisionResponse;
+import com.kirana.mlDto.ItemRecommendationDecision;
+import com.kirana.mlDto.CategoryTrendDecision;
 import com.kirana.mlService.ForecastService;
+import java.util.List;
   
 import lombok.RequiredArgsConstructor;
 
@@ -36,8 +37,8 @@ public class ForecastController {
     try{
       System.out.println("CHECK THIS:"+auth);
       Long retailerId = TenantContext.getRetailerId(auth);
-      ForecastResponse response = forecastService.getItemForecast(itemId, days,retailerId);
-      return ResponseEntity.ok(ApiResponse.success(Map.of("forecast",response)));
+      ItemDecisionResponse response = forecastService.getItemForecast(itemId, days,retailerId);
+      return ResponseEntity.ok(ApiResponse.success(Map.of("decision",response)));
 
     }catch(RuntimeException e){
 
@@ -59,14 +60,18 @@ public class ForecastController {
       ){
     try{
       Long retailerId = TenantContext.getRetailerId(auth);
-      RecommendationResponse response = forecastService.getRecommendations(retailerId);
-      System.out.println(response);
+
+      List<ItemRecommendationDecision> response = forecastService.getRecommendations(retailerId);
+
+
       return ResponseEntity.ok(ApiResponse.success(Map.of("recommendations",response)));
     }catch(Exception e){
       return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
         .body(ApiResponse.error("error", "Forecast service unavailable"));
     }
   }
+
+
 
   @GetMapping("/trends")
   public ResponseEntity<ApiResponse<Map<String,Object>>> getTrends(
@@ -75,7 +80,7 @@ public class ForecastController {
 
     try{
       Long retailerId = TenantContext.getRetailerId(auth);
-      TrendResponse response = forecastService.getTrends(retailerId);
+       List<CategoryTrendDecision>  response =  forecastService.getTrends(retailerId);
       return ResponseEntity.ok(ApiResponse.success(Map.of("trends",response)));
     }catch(Exception e){
       return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(ApiResponse.error("error", e.getMessage()));
