@@ -52,7 +52,7 @@ public class SaleDto {
         private BigDecimal unitPrice;
 
         @NotNull
-        private BigDecimal total;
+        //private BigDecimal total;
         private BigDecimal unitCostPrice;
     }
 }

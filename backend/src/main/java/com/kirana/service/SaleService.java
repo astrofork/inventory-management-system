@@ -194,7 +194,7 @@ public class SaleService {
                     .itemName(itemName)
                     .quantity(si.getQuantity())
                     .unitPrice(si.getUnitSellingPrice())
-                    .total(si.getAmount())
+                    //.total(si.getAmount())
                     .unitCostPrice(si.getUnitCostPrice())
                     .build();
         }).toList();

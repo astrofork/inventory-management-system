@@ -95,7 +95,7 @@ const Billing = () => {
           item_id: item.item_id,
           quantity: item.quantity,
           unit_price: parseFloat(item.unit_price),
-          total: parseFloat(item.quantity * item.unit_price)
+          //total: parseFloat(item.quantity * item.unit_price)
         })),
         discount,
         total_amount: parseFloat(calculateSubtotal()),
