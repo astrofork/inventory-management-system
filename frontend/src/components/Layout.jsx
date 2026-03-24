@@ -12,6 +12,7 @@ import {
   Store,
   Sun,
   Moon,
+  BarChart2,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import './Layout.css';
@@ -45,6 +46,7 @@ const Layout = () => {
     { path: '/billing', icon: FileText, label: 'Billing' },
     { path: '/inventory', icon: Package, label: 'Inventory' },
     { path: '/transactions', icon: ArrowLeftRight, label: 'Transactions' },
+    { path: '/analytics', icon: BarChart2, label: 'Ml Analytics'},
   ];
 
   return (

@@ -31,14 +31,31 @@ const Inventory = () => {
     setLoading(false);
   };
 
-  const loadCategories = async () => {
-    try {
-      const data = await api.getCategories();
-      setCategories(data.data.categories);
-    } catch (error) {
-      console.error('Failed to load categories:', error);
-    }
-  };
+  // const loadCategories = async () => {
+  //   try {
+  //     const data = await api.getCategories();
+  //     setCategories(data.data.categories);
+  //   } catch (error) {
+  //     console.error('Failed to load categories:', error);
+  //   }
+  // };
+  
+  const loadCategories = () => {
+  setCategories([
+    { name: 'Grocery' },
+    { name: 'Dairy' },
+    { name: 'Snacks' },
+    { name: 'Beverages' },
+    { name: 'Household' },
+    { name: 'Personal Care' },
+    { name: 'Frozen' },
+    { name: 'Bakery' },
+    { name: 'Spices' },
+    { name: 'Oil & Ghee' },
+    { name: 'Pulses' },
+    { name: 'Rice & Wheat' },
+  ]);
+};
 
   const handleEditItem = (item) => {
     setEditingItem(item);

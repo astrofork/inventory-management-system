@@ -9,6 +9,7 @@ import Inventory from './pages/Inventory';
 import Transactions from './pages/Transactions';
 import AuthPage from './pages/AuthPage';
 import './index.css';
+import Analytics from "./pages/Analytics";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useApp();
@@ -48,6 +49,7 @@ function App() {
             <Route path="billing" element={<Billing />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="transactions" element={<Transactions />} />
+            <Route path="/analytics" element={<Analytics />}/>
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

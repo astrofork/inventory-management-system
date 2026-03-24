@@ -93,13 +93,19 @@ const Billing = () => {
         sale_date: new Date().toISOString(),
         items: cart.map(item => ({
           item_id: item.item_id,
-          quantity: item.quantity
+          quantity: item.quantity,
+          unit_price: parseFloat(item.unit_price),
+          total: parseFloat(item.quantity * item.unit_price)
         })),
         discount,
+        total_amount: parseFloat(calculateSubtotal()),
+        final_amount: parseFloat(calculateTotal()), 
         payment_method: paymentMethod,
         payment_status: 'paid',
         paid_amount: calculateTotal()
       };
+
+      console.log(saleData);
 
       const response = await api.createSale(saleData);
       alert('Bill created successfully!');

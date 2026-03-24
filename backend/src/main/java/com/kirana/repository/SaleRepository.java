@@ -21,4 +21,35 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     long countSalesByRetailerIdAndDateRange(@Param("retailerId") Long retailerId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     List<Sale> findByRetailerIdAndDeletedAtIsNullAndSaleDateBetweenOrderBySaleDateDesc(Long retailerId, LocalDateTime start, LocalDateTime end);
+
+
+  @Query("""
+      SELECT COALESCE(SUM(s.finalAmount), 0)
+      FROM Sale s
+      WHERE s.retailerId = :retailerId
+        AND s.saleDate BETWEEN :start AND :end
+        AND LOWER(s.paymentMethod) = LOWER(:paymentMethod)
+        AND s.deletedAt IS NULL
+      """)
+  BigDecimal sumSalesByRetailerIdAndDateRangeAndPaymentMethod(
+      @Param("retailerId")     Long retailerId,
+      @Param("start")          LocalDateTime start,
+      @Param("end")            LocalDateTime end,
+      @Param("paymentMethod")  String paymentMethod
+  );
+
+
+  @Query("""
+      SELECT COALESCE(SUM(s.finalAmount - s.paidAmount), 0)
+      FROM Sale s
+      WHERE s.retailerId = :retailerId
+        AND s.paymentStatus IN ('pending', 'partial')
+        AND s.deletedAt IS NULL
+      """)
+  BigDecimal sumPendingCustomerPaymentsByRetailerId(
+      @Param("retailerId") Long retailerId
+  );
+
+
+
 }
