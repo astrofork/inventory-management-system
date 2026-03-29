@@ -43,7 +43,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> {
                 auth.requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/google").permitAll();
                 auth.requestMatchers("/actuator/health", "/actuator/info").permitAll();
-                if (true) {
+                if (isDev) {
                     auth.requestMatchers("/api/auth/demo-token").permitAll();
                     auth.requestMatchers("/h2-console/**").permitAll();
                     auth.requestMatchers("/actuator/**").permitAll();
@@ -52,7 +52,7 @@ public class SecurityConfig {
             })
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        if (true) {
+        if (isDev) {
             http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
         }
 
